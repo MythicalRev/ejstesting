@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "UsersDB",
+            "database": "${workspaceFolder:ejstestidkwhatimdoin}/users.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

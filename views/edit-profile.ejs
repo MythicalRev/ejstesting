@@ -9,6 +9,15 @@
 <body>
   <h1>Edit Your Profile</h1>
   <form action="/profile/edit" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <label for="username">New Username:</label>
+        <input type="text" name="username" value="<%= user.username %>" required>
+        
+        <br>
+
+        <label for="password">New Password:</label>
+        <input type="text" name="password" value="<%= user.password %>" required>
+        <br>
+
       <label for="email">Email:</label>
       <input type="email" name="email" value="<%= user.email %>" required>
 

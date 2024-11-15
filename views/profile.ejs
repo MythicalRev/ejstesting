@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="/scripts/index.js"></script>
+    <script src="/scripts/script.js"></script>
     <meta charset="UTF-8">
     <title><%= user.username %>'s Profile</title>
     <link rel="stylesheet" href="/stylesheets/styles.css">
@@ -14,12 +14,16 @@
   
   <p><strong>Email:</strong> <%= user.email %></p>
   <p><strong>Bio:</strong> <%= user.bio || 'No bio available.' %></p>
+
+  <p><strong>Admin:</strong> <%= user.isAdmin %></p>
   
   <!-- Conditionally show Edit Profile button if logged-in user is the owner of the profile -->
   <% if (isOwner) { %>
       <a href="/profile/edit/<%= user.username %>" style="display: inline-block; margin-top: 20px;">
           <button>Edit Profile</button>
       </a>
+
+      <button id="deleteButton" style="background-color: red; color: white; display: inline-block; margin-top: 20px;">Delete Profile</button>
   <% } %>
 
   <% if (isOwner) { %>
@@ -27,4 +31,52 @@
         <button>Logout</button>
     </a>
 <% } %>
+
+  <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Are you sure you want to delete your profile?</h2>
+            <p>This action cannot be undone.</p>
+            <form action="/profile/delete" method="POST">
+                <button type="submit" class="btn-danger">Yes</button>
+            </form>
+            <button class="btn-cancel" id="cancelButton" style="display: inline-block; margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+      // Get the modal
+      var modal = document.getElementById("deleteModal");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("deleteButton");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // Get the cancel button that closes the modal
+      var cancelButton = document.getElementById("cancelButton");
+
+      // When the user clicks the "Delete Profile" button, open the modal
+      btn.onclick = function() {
+          modal.style.display = "block";
+      }
+
+      // When the user clicks the "x" (close) button, close the modal
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      // When the user clicks the cancel button, close the modal
+      cancelButton.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      // When the user clicks anywhere outside the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+  </script>
 </body>
