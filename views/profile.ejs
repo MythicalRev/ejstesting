@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <meta charset="UTF-8">
+    <title><%= user.username %>'s Profile</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <div class="profileheader">
+    <img src="<%= user.profile_picture || 'default-profile-pic.jpg' %>" alt="<%= user.username %>'s Profile Picture" width="100" style="border-radius: 100%;"></img>
+    <h1><%= user.username %>'s Profile</h1>
+  </div>
+  
+  <p><strong>Email:</strong> <%= user.email %></p>
+  <p><strong>Bio:</strong> <%= user.bio || 'No bio available.' %></p>
+  
+  <!-- Conditionally show Edit Profile button if logged-in user is the owner of the profile -->
+  <% if (isOwner) { %>
+      <a href="/profile/edit/<%= user.username %>" style="display: inline-block; margin-top: 20px;">
+          <button>Edit Profile</button>
+      </a>
+  <% } %>
+
+  <% if (isOwner) { %>
+    <a href="/logout" style="display: inline-block; margin-top: 20px;">
+        <button>Logout</button>
+    </a>
+<% } %>
+</body>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <h1>Login</h1>
+  <form action="/login" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" required>
+
+      <button type="submit">Login</button>
+  </form>
+
+  <p>Don't have an account? <a href="/register">Sign up here</a></p>
+</body>

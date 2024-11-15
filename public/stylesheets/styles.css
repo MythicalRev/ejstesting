@@ -1,9 +1,24 @@
 body {
   background: rgb(41, 41, 41);
   color: white;
+  width: 100vh - 64px;
+  height: 100vh - 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 input {
+  background-color: rgb(68, 68, 68);;
+  color: white;
+  border-radius: 3px;
+  height: 40px;
+  width: 250px;
+  border-style: none;
+}
+
+textarea {
   background-color: rgb(68, 68, 68);;
   color: white;
   border-radius: 3px;
@@ -25,4 +40,14 @@ button {
 button:hover {
   cursor: pointer;
   background-color: rgb(90, 90, 90);;
+}
+
+.profileheader {
+  background: transparent;
+  width: 100vw - 64px;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

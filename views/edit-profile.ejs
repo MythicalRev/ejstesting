@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <meta charset="UTF-8">
+    <title>Edit <%= user.username %>'s Profile</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <h1>Edit Your Profile</h1>
+  <form action="/profile/edit" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <label for="email">Email:</label>
+      <input type="email" name="email" value="<%= user.email %>" required>
+
+      <br>
+
+      <label for="bio">Bio:</label>
+      <input name="bio" value="<%= user.bio %>"></input>
+
+      <br>
+
+      <label for="profile_picture">Profile Picture URL:</label>
+      <input type="text" name="profile_picture" value="<%= user.profile_picture || '' %>">
+
+      <br>
+
+      <button type="submit">Save Changes</button>
+  </form>
+  <a href="/profile/<%= user.username %>" style="display: inline-block; margin-top: 20px;">
+    <button>Cancel</button>
+</a>
+</body>
