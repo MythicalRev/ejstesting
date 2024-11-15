@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+    <h1>Items</h1>
+
+    <!-- Form to add new items -->
+    <form action="/add-item" method="POST">
+      <input type="text" name="username" required placeholder="Enter new user">
+      <input type="text" name="password" required placeholder="Enter new password">
+      <button type="submit">Create Acc</button>
+    </form>
+    
+    <br>
+
+    <form action="/remove-item" method="POST">
+        <input type="text" name="usern" required placeholder="Enter new user">
+        <input type="text" name="passw" required placeholder="Enter new password">
+        <button type="submit">Remove Acc</button>
+    </form>
+
+    <p>
+      <% if (message != " ") { %>
+      <%= message %>
+      <% } %>
+    </p>
+  
+    <!-- Loop through the 'items' array and display each item -->
+    <ul>
+      <% if (users && users.length > 0) { %>  <!-- Check if items exist and are not empty -->
+        <% users.forEach(function(item) { %>
+          <li><%= item.user %> - <%= item.pass %></li>
+        <% }) %>
+      <% } else { %>
+        <li>No users found</li>
+      <% } %>
+    </ul>
+  
+  
+</body>

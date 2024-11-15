@@ -1,0 +1,28 @@
+body {
+  background: rgb(41, 41, 41);
+  color: white;
+}
+
+input {
+  background-color: rgb(68, 68, 68);;
+  color: white;
+  border-radius: 3px;
+  height: 40px;
+  width: 250px;
+  border-style: none;
+}
+
+button {
+  background-color: rgb(68, 68, 68);;
+  color: white;
+  border-radius: 3px;
+  height: 40px;
+  width: 100px;
+  border-style: none;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(90, 90, 90);;
+}
