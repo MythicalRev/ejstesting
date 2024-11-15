@@ -138,7 +138,7 @@ app.get('/profile/edit/:username', isAuthenticated, (req, res) => {
   const userId = req.session.userId;
 
   // Get the user's current profile data
-  db.get("SELECT id, username, email, bio, profile_picture FROM users WHERE id = ?", [userId], (err, user) => {
+  db.get("SELECT id, username, email, password, bio, profile_picture FROM users WHERE id = ?", [userId], (err, user) => {
       if (err) {
           console.error('Database error:', err);
           return res.status(500).send('Database error');

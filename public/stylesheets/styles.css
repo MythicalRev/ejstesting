@@ -46,7 +46,6 @@ button:hover {
 .profileheader {
   background: transparent;
   width: 100vw - 64px;
-  height: 25vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
