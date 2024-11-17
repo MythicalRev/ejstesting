@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/script.js"></script>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+    <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
+    <h1>Users</h1>
+
+    <table>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td>
+                        <a href="/Profile/<%= user.username %>">
+                            <button><%= user.username %></button>
+                        </a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>

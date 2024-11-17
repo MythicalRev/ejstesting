@@ -6,6 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const app = express();
 const bcrypt = require('bcryptjs');
+const { isatty } = require("tty");
 
 const db = new sqlite3.Database('./users.db');
 
@@ -32,7 +33,10 @@ function isAdmin(req, res, next) {
 // You Can Add async By removing the /* And */
 // You Can Change The / Its For {Link}/ Example {Link}/replit
 app.get('/', (req, res) => {
-  res.render('home');
+  const username = req.session.username;
+  const isAdmin = req.session.isAdmin
+
+  res.render('home', {username: username, isAdmin: isAdmin} );
 });
 
 app.get('/register', (req, res) => {
@@ -128,7 +132,7 @@ app.get('/profile/:username', (req, res) => {
       const isOwner = user.username === req.session.username;
 
       // Render profile page, passing user data and isOwner flag
-      res.render('profile', { user, isOwner, isAdmin });
+      res.render('profile', { user, isOwner, isAdmin, username });
   });
 });
 
@@ -211,6 +215,8 @@ app.post('/profile/delete', isAuthenticated, (req, res) => {
 
 app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
   const query = "SELECT id, username, email, isAdmin FROM users";
+  const username = req.session.username;
+  const isAdmin = req.session.isAdmin;
   
   db.all(query, (err, users) => {
       if (err) {
@@ -220,10 +226,32 @@ app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
 
       res.render('admin', {
           users: users,
-          currentUserId: req.session.userId
+          currentUserId: req.session.userId,
+          username,
+          isAdmin
       });
   });
 });
+
+app.get('/users', (req, res) => {
+    const query = "SELECT id, username, email, isAdmin FROM users";
+    const username = req.session.username;
+    const isAdmin = req.session.isAdmin || false;
+    
+    db.all(query, (err, users) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            return res.status(500).send('Error fetching users');
+        }
+  
+        res.render('users', {
+            users: users,
+            currentUserId: req.session.userId,
+            username: username,
+            isAdmin: isAdmin
+        });
+    });
+  });
 
 // Toggle admin status (POST)
 app.post('/admin/toggle-admin/:id', isAuthenticated, isAdmin, (req, res) => {
@@ -312,7 +340,6 @@ app.post('/admin/delete/:id', isAuthenticated, isAdmin, (req, res) => {
         res.redirect('/admin');  // Redirect back to the admin panel after deletion
     });
 });
-
 
 // Dont Remove
 app.listen(3000, () => {

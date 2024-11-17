@@ -1,8 +1,8 @@
 body {
   background: rgb(41, 41, 41);
   color: white;
-  width: 98vw;
-  height: 97vh;
+  max-width:100%;
+  height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -104,4 +104,17 @@ button:hover {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
+}
+
+.header {
+  position: absolute;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  max-width:100%;
+  height: 65px;
+  background-color: rgb(68, 68, 68);
+  bottom: calc(100vh - 65px);
 }

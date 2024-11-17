@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <style src="/stylesheets/styles.css"></style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <div class="header">
+    <a href="/"><button style="background-color: rgb(41, 41, 41);">Home</button></a>
+    <a href="/users"><button style="background-color: rgb(41, 41, 41);">Users</button></a>
+    <% if (username) { %>
+        <a href="/profile/<%= username %>"><button style="background-color: rgb(41, 41, 41); right: 25px; position: absolute; bottom: 12px;" >Profile</button></a>
+    <% } else { %>
+        <a href="/login"><button style="background-color: rgb(41, 41, 41); right: 25px; position: absolute; bottom: 12px;" >Log In</button></a>
+    <% } %>   
+    
+    <% if (isAdmin) { %>
+        <a href="/admin"><button style="background-color: rgb(41, 41, 41); left: 25px; position: absolute; bottom: 12px;" >Admin</button></a>
+    <% } %> 
+  </div>
+</body>
