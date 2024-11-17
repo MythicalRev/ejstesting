@@ -9,18 +9,19 @@
 <body>
     <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
     <h1>Users</h1>
-
-    <table>
-        <tbody>
-            <% users.forEach(user => { %>
-                <tr>
-                    <td>
-                        <a href="/Profile/<%= user.username %>">
-                            <button><%= user.username %></button>
-                        </a>
-                    </td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+    <div id="" style="overflow-y:auto; height:400px; -ms-overflow-style: none; scrollbar-width: none;">
+        <table>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td>
+                            <a href="/Profile/<%= user.username %>">
+                                <button><%= user.username %></button>
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
 </body>

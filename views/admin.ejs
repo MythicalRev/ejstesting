@@ -10,35 +10,36 @@
     <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
     <h1>Admin Panel</h1>
     <h2>Manage Users</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Admin</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(user => { %>
+    <div id="" style="overflow-y:auto; height:400px; -ms-overflow-style: none; scrollbar-width: none;">
+        <table>
+            <thead>
                 <tr>
-                    <td><%= user.username %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
-                    <td>
-                        <!-- Edit Button -->
-                        <a href="/admin/edit/<%= user.id %>">
-                            <button>Edit</button>
-                        </a>
-
-                        <!-- Delete Button -->
-                        <form action="/admin/delete/<%= user.id %>" method="POST" style="display:inline;">
-                            <button type="submit" style="background-color: red; color: white;">Delete</button>
-                        </form>
-                    </td>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Admin</th>
+                    <th>Actions</th>
                 </tr>
-            <% }); %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.username %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+                        <td>
+                            <!-- Edit Button -->
+                            <a href="/admin/edit/<%= user.id %>">
+                                <button>Edit</button>
+                            </a>
+    
+                            <!-- Delete Button -->
+                            <form action="/admin/delete/<%= user.id %>" method="POST" style="display:inline;">
+                                <button type="submit" style="background-color: red; color: white;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
 </body>

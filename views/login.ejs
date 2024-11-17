@@ -8,12 +8,16 @@
 </head>
 <body>
   <h1>Login</h1>
-  <form action="/login" method="POST">
+  <form action="/login" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
       <label for="username">Username:</label>
       <input type="text" name="username" required>
 
+      <br>
+
       <label for="password">Password:</label>
       <input type="password" name="password" required>
+
+      <br>
 
       <button type="submit">Login</button>
   </form>

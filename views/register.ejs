@@ -8,21 +8,31 @@
 </head>
 <body>
   <h1>Create an Account</h1>
-  <form action="/register" method="POST">
+  <form action="/register" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
       <label for="username">Username:</label>
       <input type="text" name="username" required>
+
+      <br>
 
       <label for="email">Email:</label>
       <input type="email" name="email" required>
 
+      <br>
+
       <label for="password">Password:</label>
       <input type="password" name="password" required>
+
+      <br>
 
       <label for="bio">Bio:</label>
       <input name="bio"></input>
 
+      <br>
+
       <label for="profile_picture">Profile Picture URL:</label>
       <input type="text" name="profile_picture">
+
+      <br>
 
       <button type="submit">Register</button>
   </form>

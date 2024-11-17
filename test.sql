@@ -1,1 +1,1 @@
-UPDATE users SET isAdmin = 1 WHERE id = 2;
+UPDATE users SET isAdmin = 1 WHERE id = 3;
