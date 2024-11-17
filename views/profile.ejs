@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
 <body>
-  <%- include('partials/header.ejs'), {username: user.username, isAdmin: isAdmin} %>
+  <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
   <div class="profileheader">
     <img src="<%= user.profile_picture || 'default-profile-pic.jpg' %>" alt="<%= user.username %>'s Profile Picture" width="100" style="border-radius: 100%;"></img>
     <h1><%= user.username %>'s Profile</h1>

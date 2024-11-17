@@ -116,6 +116,7 @@ function isAuthenticated(req, res, next) {
 
 app.get('/profile/:username', (req, res) => {
   const username = req.params.username;
+  const username2 = req.session.username;
   const isAdmin = req.session.isAdmin;
 
   // Get user info from the database
@@ -132,7 +133,7 @@ app.get('/profile/:username', (req, res) => {
       const isOwner = user.username === req.session.username;
 
       // Render profile page, passing user data and isOwner flag
-      res.render('profile', { user, isOwner, isAdmin, username });
+      res.render('profile', { user, isOwner, isAdmin: isAdmin, username: username2 });
   });
 });
 
@@ -150,7 +151,6 @@ app.get('/profile/edit/:username', isAuthenticated, (req, res) => {
       if (!user) {
           return res.status(404).send('User not found');
       }
-
       // Render the edit profile page with the user's data
       res.render('edit-profile', { user });
   });
@@ -161,15 +161,9 @@ app.post('/profile/edit', isAuthenticated, (req, res) => {
   const { username, email, password, bio, profile_picture } = req.body;
   const userId = req.session.userId;
 
-  bcrypt.hash(password, 10, (err, hashedPassword) => {
-    if (err) {
-        console.error('Error hashing password:', err);
-        return res.status(500).send('Error hashing password');
-    }
-
     // Update the user's profile in the database
-     db.run("UPDATE users SET username = ?, email = ?, password = ?, bio = ?, profile_picture = ? WHERE id = ?",
-         [username, email, hashedPassword, bio, profile_picture, userId], function(err) {
+     db.run("UPDATE users SET username = ?, email = ?, bio = ?, profile_picture = ? WHERE id = ?",
+         [username, email, bio, profile_picture, userId], function(err) {
             if (err) {
                 console.error('Error updating profile:', err);
                return res.status(500).send('Error updating profile');
@@ -180,7 +174,6 @@ app.post('/profile/edit', isAuthenticated, (req, res) => {
             res.redirect(`/profile/${req.session.username}`); // Redirect back to the profile page
           });
   });
-}); 
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
