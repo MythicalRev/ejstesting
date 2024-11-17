@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/index.js"></script>
+    <meta charset="UTF-8">
+    <title>Upload</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <h1>Upload an Image</h1>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <label for="image">Choose an image:</label>
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Upload Image</button>
+  </form>
+</body>

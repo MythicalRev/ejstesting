@@ -5,8 +5,10 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const app = express();
+const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const { isatty } = require("tty");
+const multer = require('multer');
 
 const db = new sqlite3.Database('./users.db');
 
@@ -68,6 +70,11 @@ app.post('/register', (req, res) => {
                   return res.status(500).send('Error saving user');
               }
 
+              const userFolder = `public/uploads/${username}`;
+              if (!fs.existsSync(userFolder)) {
+                fs.mkdirSync(userFolder, { recursive: true });
+              }
+
               console.log('User registered successfully with ID:', this.lastID);
               res.redirect('/login');  // Redirect to the login page after successful registration
           });
@@ -119,6 +126,10 @@ app.get('/profile/:username', (req, res) => {
   const username2 = req.session.username;
   const isAdmin = req.session.isAdmin;
 
+  const userId = req.session.userId;
+
+  const userFolder = `public/uploads/${username}`;
+
   // Get user info from the database
   db.get("SELECT id, username, email, bio, profile_picture, isAdmin FROM users WHERE username = ?", [username], (err, user) => {
       if (err) {
@@ -132,8 +143,14 @@ app.get('/profile/:username', (req, res) => {
       // Check if the logged-in user matches the requested profile
       const isOwner = user.username === req.session.username;
 
-      // Render profile page, passing user data and isOwner flag
-      res.render('profile', { user, isOwner, isAdmin: isAdmin, username: username2 });
+      fs.readdir(userFolder, (err, files) => {
+        if (err) {
+          return res.status(500).send('Error reading files');
+        }
+    
+        const fileUrls = files.map(file => `/uploads/${username}/${file}`);
+        res.render('profile', { user, isOwner, isAdmin: isAdmin, username: username2, files: fileUrls });
+      });
   });
 });
 
@@ -185,6 +202,7 @@ app.get('/logout', (req, res) => {
 // Delete profile (POST)
 app.post('/profile/delete', isAuthenticated, (req, res) => {
   const userId = req.session.userId;
+  const username = req.session.username;
 
   // Delete the user from the database
   db.run("DELETE FROM users WHERE id = ?", [userId], function(err) {
@@ -192,6 +210,8 @@ app.post('/profile/delete', isAuthenticated, (req, res) => {
           console.error('Error deleting profile:', err);
           return res.status(500).send('Error deleting profile');
       }
+
+      fs.rmdir(`public/uploads/${username}`)
 
       // Destroy the user's session after deleting the profile
       req.session.destroy((err) => {
@@ -333,6 +353,35 @@ app.post('/admin/delete/:id', isAuthenticated, isAdmin, (req, res) => {
         res.redirect('/admin');  // Redirect back to the admin panel after deletion
     });
 });
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Create a user-specific upload folder if it doesn't exist
+        const userFolder = `public/uploads/${req.session.username}`;
+        if (!fs.existsSync(userFolder)) {
+          fs.mkdirSync(userFolder, { recursive: true });
+        }
+        cb(null, userFolder);
+      },
+      filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+      }
+});
+  
+const upload = multer({ storage: storage });
+
+app.get('/upload', isAuthenticated, (req, res) => {
+    res.render('upload')
+});
+
+app.post('/upload', upload.single('image'), (req, res) => {
+    if (req.file) {
+      res.send(`<h3>File uploaded successfully! <br><img src="/uploads/${req.file.filename}" width="300" alt="Uploaded Image"></h3>`);
+    } else {
+      res.send('<h3>No file uploaded</h3>');
+    }
+    res.redirect('/');
+  });
 
 // Dont Remove
 app.listen(3000, () => {

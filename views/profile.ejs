@@ -15,8 +15,26 @@
   
   <p><%= user.bio || 'No bio available.' %></p>
 
+  <h3>Your Uploaded Files:</h3>
+  <div>
+    <% if (files.length > 0) { %>
+      <table>
+        <% files.forEach(file => { %>
+            <img src="<%= file %>" width="150" alt="Uploaded Image">
+        <% }); %>
+      </table>
+    <% } else { %>
+      <p>User has not uploaded any files yet.</p>
+    <% } %>
+  </div>
+  <br>
+
   <!-- Conditionally show Edit Profile button if logged-in user is the owner of the profile -->
   <% if (isOwner) { %>
+    <a href="/upload" style="display: inline-block; margin-top: 20px;">
+        <button>Upload</button>
+    </a>
+
       <a href="/profile/edit/<%= user.username %>" style="display: inline-block; margin-top: 20px;">
           <button>Edit Profile</button>
       </a>
