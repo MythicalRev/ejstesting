@@ -9,15 +9,12 @@
 <body>
   <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
   <div class="profileheader">
-    <img src="<%= user.profile_picture || 'default-profile-pic.jpg' %>" alt="<%= user.username %>'s Profile Picture" width="100" style="border-radius: 100%;"></img>
+    <img src="<%= user.profile_picture || 'default-profile-pic.jpg' %>" alt="<%= user.username %>'s Profile Picture" width="100" height="100" style="border-radius: 100%;"></img>
     <h1><%= user.username %>'s Profile</h1>
   </div>
   
-  <p><strong>Email:</strong> <%= user.email %></p>
-  <p><strong>Bio:</strong> <%= user.bio || 'No bio available.' %></p>
+  <p><%= user.bio || 'No bio available.' %></p>
 
-  <p><strong>Admin:</strong> <%= user.isAdmin %></p>
-  
   <!-- Conditionally show Edit Profile button if logged-in user is the owner of the profile -->
   <% if (isOwner) { %>
       <a href="/profile/edit/<%= user.username %>" style="display: inline-block; margin-top: 20px;">
