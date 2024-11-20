@@ -375,13 +375,30 @@ app.get('/upload', isAuthenticated, (req, res) => {
 });
 
 app.post('/upload', upload.single('image'), (req, res) => {
-    if (req.file) {
-      res.send(`<h3>File uploaded successfully! <br><img src="/uploads/${req.file.filename}" width="300" alt="Uploaded Image"></h3>`);
+    const username = req.session.username;
+
+    res.redirect(`/profile/${username}`);
+    
+});
+
+app.get('/delete-image', isAuthenticated, (req, res) => { 
+  const dir = `public${req.query.dir}`;
+
+  const username = req.session.username;
+
+  const userFolder = `/public/uploads/${username}`;
+
+  fs.unlink(dir, (err) => {
+    if (err) {
+      console.log(err)
+      return res.status(500).send('Error del file');
     } else {
-      res.send('<h3>No file uploaded</h3>');
+      res.redirect(`/profile/${username}`);
     }
-    res.redirect('/');
   });
+  //res.render(`home`)
+  
+});
 
 // Dont Remove
 app.listen(3000, () => {

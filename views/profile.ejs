@@ -15,22 +15,36 @@
   
   <p><%= user.bio || 'No bio available.' %></p>
 
-  <h3>Your Uploaded Files:</h3>
+  <h3>Uploaded Images:</h3>
   <div>
-    <% if (files.length > 0) { %>
-      <table>
-        <% files.forEach(file => { %>
-            <img src="<%= file %>" width="150" alt="Uploaded Image">
-        <% }); %>
-      </table>
+    <% if (isOwner) { %>
+      <% if (files.length > 0) { %>
+        <div style="gap: 10px; display: grid; width: 500px; height: 150px; overflow-y: auto; grid-template-columns: repeat(auto-fit, minmax(min(100%/3, max(10px, 100%/4)), 1fr));" >
+          <% files.forEach(file => { %>
+              <a href="/delete-image?dir=<%= file %>"><img src="<%= file %>" width="150" alt="Uploaded Image"></a>
+         <% }); %>
+         </div>
+      <% } else { %>
+        <p>No Images Found.</p>
+      <% } %>
     <% } else { %>
-      <p>User has not uploaded any files yet.</p>
+      <% if (files.length > 0) { %>
+        <div style="gap: 10px; display: grid; width: 500px; height: 150px; overflow-y: auto; grid-template-columns: repeat(auto-fit, minmax(min(100%/3, max(10px, 100%/4)), 1fr));" >
+          <% files.forEach(file => { %>
+              <img src="<%= file %>" width="150" alt="Uploaded Image">
+          <% }); %>
+          </div>
+      <% } else { %>
+        <p>No Images Found.</p>
+      <% } %>
     <% } %>
   </div>
   <br>
 
   <!-- Conditionally show Edit Profile button if logged-in user is the owner of the profile -->
   <% if (isOwner) { %>
+    <p>Click an Image to Delete it</p>
+
     <a href="/upload" style="display: inline-block; margin-top: 20px;">
         <button>Upload</button>
     </a>
