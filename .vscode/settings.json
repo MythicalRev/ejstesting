@@ -7,5 +7,6 @@
             "database": "${workspaceFolder:ejstestidkwhatimdoin}/users.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "discord.enabled": true
 }
