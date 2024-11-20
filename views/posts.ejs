@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/scripts/script.js"></script>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+    <%- include('partials/header.ejs'), {username: username, isAdmin: isAdmin} %>
+    <h1>Posts</h1>
+    <div style="gap: 10px; display: grid; width: 1000px; height: 500px; overflow-y: auto; grid-template-columns: repeat(auto-fit, minmax(min(100%/7, max(10px, 100%/4)), 1fr));" >
+        <% files.forEach(file => { %>
+            <a href="/view-image?dir=<%= file.dir %>"><img src="<%= file.dir %>" width="150" alt="Uploaded Image"></a>
+       <% }); %>
+    </div>
+</body>

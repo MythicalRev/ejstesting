@@ -1,1 +1,1 @@
-UPDATE users SET isAdmin = 1 WHERE id = 3;
+DELETE FROM posts WHERE id = 3;

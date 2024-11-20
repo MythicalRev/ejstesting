@@ -38,7 +38,9 @@ app.get('/', (req, res) => {
   const username = req.session.username;
   const isAdmin = req.session.isAdmin
 
-  res.render('home', {username: username, isAdmin: isAdmin} );
+  const displayUser = req.session.username || "User";
+
+  res.render('home', {username: username, isAdmin: isAdmin, displayUser: displayUser} );
 });
 
 app.get('/register', (req, res) => {
@@ -377,18 +379,42 @@ app.get('/upload', isAuthenticated, (req, res) => {
 app.post('/upload', upload.single('image'), (req, res) => {
     const username = req.session.username;
 
-    res.redirect(`/profile/${username}`);
-    
+    const dir = `/uploads/${username}/${req.file.filename}`;
+
+    console.log(dir);
+
+    db.run("INSERT INTO posts (dir) VALUES (?)",
+          [dir], 
+          function(err) {
+              if (err) {
+                  console.error('Error saving post:', err.message); // Log detailed error
+                  return res.status(500).send('Error saving post');
+              }
+
+              console.log('Post registered successfully with ID:', this.lastID);
+
+              res.redirect(`/profile/${username}`);
+          });
 });
 
 app.get('/delete-image', isAuthenticated, (req, res) => { 
-  const dir = `public${req.query.dir}`;
+  const dir = `${req.query.dir}`;
+  const dirrem = `public/${req.query.dir}`;
 
   const username = req.session.username;
 
   const userFolder = `/public/uploads/${username}`;
 
-  fs.unlink(dir, (err) => {
+  db.run("DELETE FROM posts WHERE dir = ?",
+          [dir], 
+          function(err) {
+              if (err) {
+                  console.error('Error deleting post:', err.message); // Log detailed error
+                  return res.status(500).send('Error deleting post');
+              }
+          });
+
+  fs.unlink(dirrem, (err) => {
     if (err) {
       console.log(err)
       return res.status(500).send('Error del file');
@@ -398,6 +424,39 @@ app.get('/delete-image', isAuthenticated, (req, res) => {
   });
   //res.render(`home`)
   
+});
+
+app.get('/posts', (req, res) => {
+  const query = "SELECT id, dir FROM posts";
+  const username = req.session.username;
+
+  const isAdmin = req.session.isAdmin || false;
+  
+  db.all(query, (err, files) => {
+      if (err) {
+          console.error('Error fetching posts:', err);
+          return res.status(500).send('Error fetching posts');
+      }
+
+      res.render('posts', {
+          files: files,
+          currentUserId: req.session.userId,
+          username: username,
+          isAdmin: isAdmin
+      });
+  });
+});
+
+app.get('/view-image', (req, res) => { 
+  const dir = `${req.query.dir}`;
+
+  const username = req.session.username;
+
+  const isAdmin = req.session.isAdmin
+
+  const userFolder = `/public/uploads/${username}`;
+  
+  res.render('view-image', {username: username, isAdmin: isAdmin, dir: dir} );
 });
 
 // Dont Remove
